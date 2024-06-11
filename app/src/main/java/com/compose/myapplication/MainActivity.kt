@@ -12,9 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import androidx.navigation.toRoute
+import com.compose.myapplication.detail.Game
+import com.compose.myapplication.detail.InGame
+import com.compose.myapplication.detail.InGameScreen
+import com.compose.myapplication.detail.Match
+import com.compose.myapplication.detail.MatchScreen
+import com.compose.myapplication.detail.ResultsWinner
 import com.compose.myapplication.first.SecondScreen
 import com.compose.myapplication.first.navigation.First
+import com.compose.myapplication.first.navigation.Main
 import com.compose.myapplication.second.FirstScreen
 import com.compose.myapplication.second.navigation.Book
 import com.compose.myapplication.second.navigation.Second
@@ -42,18 +50,23 @@ class MainActivity : ComponentActivity() {
 fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = First) {
-        composable<First> {
-            FirstScreen(
-                modifier = modifier,
-                onClicked = {
-                    val args =
-                        Second(
-                            book = Book.B,
-                        )
-                    navController.navigate(args)
-                },
-            )
+    NavHost(navController, startDestination = Main) {
+        navigation<Main>(
+            startDestination = First,
+        ) {
+            composable<First> {
+                FirstScreen(
+                    modifier = modifier,
+                    onClicked = {
+                        val args =
+                            Second(
+                                book = Book.B,
+                            )
+                        navController.navigate(args)
+//                        navController.navigate(InGame)
+                    },
+                )
+            }
         }
 
         composable<Second>(
@@ -63,14 +76,29 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
                 ),
         ) { backStackEntry ->
             println("Start Second Screen and fetch args")
-            val args = backStackEntry.toRoute<Book>()
-            println("=================================================")
-            println(args.name)
-            println("=================================================")
+            val args = backStackEntry.toRoute<Second>()
             SecondScreen(
                 modifier = modifier,
-                title = args.name,
+                title = args.book.name,
             )
+        }
+
+        navigation<Game>(
+            startDestination = Match,
+        ) {
+            composable<Match> {
+                MatchScreen(
+                    modifier = Modifier,
+                    onClick = { navController.navigate(InGame) },
+                )
+            }
+
+            composable<InGame> {
+                InGameScreen(
+                    modifier = Modifier,
+                    onClick = { navController.navigate(ResultsWinner) },
+                )
+            }
         }
     }
 }
