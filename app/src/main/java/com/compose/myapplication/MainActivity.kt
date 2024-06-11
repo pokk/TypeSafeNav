@@ -27,7 +27,9 @@ import com.compose.myapplication.second.FirstScreen
 import com.compose.myapplication.second.navigation.Book
 import com.compose.myapplication.second.navigation.Second
 import com.compose.myapplication.second.navigation.bookType
+import com.compose.myapplication.second.navigation.zonedDateTimeType
 import com.compose.myapplication.ui.theme.MyApplicationTheme
+import java.time.ZonedDateTime
 import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
@@ -61,9 +63,9 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
                         val args =
                             Second(
                                 book = Book.B,
+                                time = ZonedDateTime.now(),
                             )
                         navController.navigate(args)
-//                        navController.navigate(InGame)
                     },
                 )
             }
@@ -73,6 +75,7 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             typeMap =
                 mapOf(
                     typeOf<Book>() to bookType,
+                    typeOf<ZonedDateTime>() to zonedDateTimeType,
                 ),
         ) { backStackEntry ->
             println("Start Second Screen and fetch args")
