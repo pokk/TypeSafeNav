@@ -40,28 +40,44 @@ inline fun <reified T : Any> serializableType(
         bundle: Bundle,
         key: String,
     ): T? {
-        println("11111111111111111111111111111")
         return bundle.getString(key)?.let<String, T>(json::decodeFromString)
     }
 
-    override fun parseValue(value: String): T {
-        println("22222222222222222222222222222")
-        return json.decodeFromString<T>(value).also(::println)
-    }
+    override fun parseValue(value: String): T = json.decodeFromString<T>(value).also(::println)
 
-    override fun serializeAsValue(value: T): String {
-        println("33333333333333333333333333333")
-        println(T::class)
-        return json.encodeToString(value).also(::println)
-    }
+    override fun serializeAsValue(value: T): String = json.encodeToString(value).also(::println)
 
     override fun put(
         bundle: Bundle,
         key: String,
         value: T,
     ) {
-        println("44444444444444444444444444444")
-        println(value)
         bundle.putString(key, json.encodeToString(value))
     }
 }
+
+inline fun <reified T : Enum<T>> enumType(isNullableAllowed: Boolean = false) =
+    object : NavType<T>(isNullableAllowed = isNullableAllowed) {
+        override fun get(
+            bundle: Bundle,
+            key: String,
+        ): T? {
+            val enumName = bundle.getString(key)
+            return enumName?.let { enumValueOf(T::class.java, it) }
+        }
+
+        override fun put(
+            bundle: Bundle,
+            key: String,
+            value: T,
+        ) = bundle.putString(key, value.name)
+
+        override fun parseValue(value: String): T = enumValueOf(T::class.java, value)
+
+        private fun enumValueOf(
+            enumClass: Class<T>,
+            value: String,
+        ): T {
+            return java.lang.Enum.valueOf(enumClass, value)
+        }
+    }

@@ -25,9 +25,8 @@ import com.compose.myapplication.first.navigation.First
 import com.compose.myapplication.first.navigation.Main
 import com.compose.myapplication.second.FirstScreen
 import com.compose.myapplication.second.navigation.Book
+import com.compose.myapplication.second.navigation.OwnZonedDateTime
 import com.compose.myapplication.second.navigation.Second
-import com.compose.myapplication.second.navigation.bookType
-import com.compose.myapplication.second.navigation.zonedDateTimeType
 import com.compose.myapplication.ui.theme.MyApplicationTheme
 import java.time.ZonedDateTime
 import kotlin.reflect.typeOf
@@ -63,7 +62,7 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
                         val args =
                             Second(
                                 book = Book.B,
-                                time = ZonedDateTime.now(),
+                                ownTime = OwnZonedDateTime(ZonedDateTime.now()),
                             )
                         navController.navigate(args)
                     },
@@ -74,15 +73,15 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
         composable<Second>(
             typeMap =
                 mapOf(
-                    typeOf<Book>() to bookType,
-                    typeOf<ZonedDateTime>() to zonedDateTimeType,
+                    typeOf<Book>() to enumType<Book>(),
+                    typeOf<OwnZonedDateTime>() to serializableType<OwnZonedDateTime>(),
                 ),
         ) { backStackEntry ->
             println("Start Second Screen and fetch args")
             val args = backStackEntry.toRoute<Second>()
             SecondScreen(
                 modifier = modifier,
-                title = args.book.name,
+                title = "${args.book.title} ==== ${args.ownTime.value}",
             )
         }
 
