@@ -1,4 +1,4 @@
-package com.compose.myapplication.second
+package com.compose.myapplication.first
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button

@@ -1,9 +1,8 @@
-package com.compose.myapplication.first
+package com.compose.myapplication.second
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,10 +12,12 @@ import androidx.compose.ui.unit.dp
 fun SecondScreen(
     modifier: Modifier = Modifier,
     title: String,
+    onBookClick: () -> Unit,
 ) {
     ListOfBooksScreen(
         modifier = modifier,
-        title = title
+        title = title,
+        onBookClick = onBookClick,
     )
 }
 
@@ -26,16 +27,18 @@ fun ListOfBooksScreen(
     title: String,
     onBookClick: () -> Unit = {},
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        items(20) {
-            Text(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                text = title,
-            )
-        }
-    }
+//    LazyColumn(
+//        modifier = modifier.fillMaxSize(),
+//    ) {
+//        items(20) {
+    Text(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .clickable { onBookClick() },
+        text = title,
+    )
 }
+//    }
+// }

@@ -1,5 +1,6 @@
 package com.compose.myapplication
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,11 +21,12 @@ import com.compose.myapplication.detail.InGame
 import com.compose.myapplication.detail.InGameScreen
 import com.compose.myapplication.detail.Match
 import com.compose.myapplication.detail.MatchScreen
+import com.compose.myapplication.detail.ResultWinnerScreen
 import com.compose.myapplication.detail.ResultsWinner
-import com.compose.myapplication.first.SecondScreen
+import com.compose.myapplication.first.FirstScreen
 import com.compose.myapplication.first.navigation.First
 import com.compose.myapplication.first.navigation.Main
-import com.compose.myapplication.second.FirstScreen
+import com.compose.myapplication.second.SecondScreen
 import com.compose.myapplication.second.navigation.Book
 import com.compose.myapplication.second.navigation.OwnZonedDateTime
 import com.compose.myapplication.second.navigation.Second
@@ -47,9 +50,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("RestrictedApi")
 @Composable
 fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
+    LaunchedEffect(Unit) {
+        navController.currentBackStack.collect {
+            println("=================================================")
+            it.forEach(::println)
+            println("=================================================")
+        }
+    }
 
     NavHost(navController, startDestination = Main) {
         navigation<Main>(
@@ -82,6 +93,7 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             SecondScreen(
                 modifier = modifier,
                 title = "${args.book.title} ==== ${args.ownTime.value}",
+                onBookClick = { navController.navigate(InGame) },
             )
         }
 
@@ -99,6 +111,23 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
                 InGameScreen(
                     modifier = Modifier,
                     onClick = { navController.navigate(ResultsWinner) },
+                )
+            }
+
+            composable<ResultsWinner> {
+                ResultWinnerScreen(
+                    modifier = Modifier,
+                    onClick = {
+                        navController.navigate(
+                            Second(
+                                book = Book.C,
+                                ownTime =
+                                    OwnZonedDateTime(
+                                        value = ZonedDateTime.now(),
+                                    ),
+                            ),
+                        )
+                    },
                 )
             }
         }
