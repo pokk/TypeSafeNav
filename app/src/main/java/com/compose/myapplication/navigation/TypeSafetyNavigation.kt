@@ -44,7 +44,7 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
         navigation<Main>(
             startDestination = First,
         ) {
-            composable<First> {
+            composable<First> { backStackEntry ->
                 FirstScreen(
                     modifier = modifier,
                     onClicked = {
@@ -66,7 +66,6 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
                     typeOf<OwnZonedDateTime>() to serializableType<OwnZonedDateTime>(),
                 ),
         ) { backStackEntry ->
-            println("Start Second Screen and fetch args")
             val args = backStackEntry.toRoute<Second>()
             SecondScreen(
                 modifier = modifier,
@@ -78,33 +77,34 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
         navigation<Game>(
             startDestination = Match,
         ) {
-            composable<Match> {
+            composable<Match> { backStackEntry ->
                 MatchScreen(
                     modifier = Modifier,
                     onClick = { navController.navigate(InGame) },
                 )
             }
 
-            composable<InGame> {
+            composable<InGame> { backStackEntry ->
                 InGameScreen(
                     modifier = Modifier,
                     onClick = { navController.navigate(ResultsWinner) },
                 )
             }
 
-            composable<ResultsWinner> {
+            composable<ResultsWinner> { backStackEntry ->
                 ResultWinnerScreen(
                     modifier = Modifier,
                     onClick = {
-                        navController.navigate(
-                            Second(
-                                book = Book.C,
-                                ownTime =
-                                    OwnZonedDateTime(
-                                        value = ZonedDateTime.now(),
-                                    ),
-                            ),
-                        )
+//                        navController.navigate(
+//                            Second(
+//                                book = Book.C,
+//                                ownTime =
+//                                    OwnZonedDateTime(
+//                                        value = ZonedDateTime.now(),
+//                                    ),
+//                            ),
+//                        )
+                        navController.navigate(First)
                     },
                 )
             }

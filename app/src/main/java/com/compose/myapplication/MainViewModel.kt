@@ -2,7 +2,12 @@ package com.compose.myapplication
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainViewModel(
-    private val savedStateHandle: SavedStateHandle,
-) : ViewModel()
+@HiltViewModel
+class MainViewModel
+    @Inject
+    constructor(
+        private val savedStateHandle: SavedStateHandle,
+    ) : ViewModel()
