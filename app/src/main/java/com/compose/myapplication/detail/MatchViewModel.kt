@@ -10,4 +10,8 @@ class MatchViewModel
     @Inject
     constructor(
         private val savedStateHandle: SavedStateHandle,
-    ) : ViewModel()
+    ) : ViewModel() {
+        init {
+            println("Match View Model Run init Block")
+        }
+}

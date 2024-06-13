@@ -10,4 +10,10 @@ class FirstViewModel
     @Inject
     constructor(
         private val savedStateHandle: SavedStateHandle,
-    ) : ViewModel()
+    ) : ViewModel() {
+        init {
+            println("first viewmodel's saved state handle")
+            println(savedStateHandle)
+            println("=================================================")
+    }
+}

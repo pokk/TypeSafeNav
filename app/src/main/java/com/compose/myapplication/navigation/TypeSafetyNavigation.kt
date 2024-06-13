@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.compose.myapplication.MainViewModel
 import com.compose.myapplication.detail.Game
 import com.compose.myapplication.detail.InGame
 import com.compose.myapplication.detail.InGameScreen
@@ -18,6 +20,7 @@ import com.compose.myapplication.detail.ResultWinnerScreen
 import com.compose.myapplication.detail.ResultsWinner
 import com.compose.myapplication.enumType
 import com.compose.myapplication.first.FirstScreen
+import com.compose.myapplication.first.FirstViewModel
 import com.compose.myapplication.first.navigation.First
 import com.compose.myapplication.first.navigation.Main
 import com.compose.myapplication.second.SecondScreen
@@ -45,6 +48,10 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             startDestination = First,
         ) {
             composable<First> { backStackEntry ->
+                println("This is the back stack entry's savedStateHandle")
+                println(backStackEntry)
+                println("=================================================")
+                val vm = hiltViewModel<FirstViewModel>(backStackEntry)
                 FirstScreen(
                     modifier = modifier,
                     onClicked = {
@@ -70,7 +77,7 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             SecondScreen(
                 modifier = modifier,
                 title = "${args.book.title} ==== ${args.ownTime.value}",
-                onBookClick = { navController.navigate(InGame) },
+                onBookClick = { navController.navigate(Game) },
             )
         }
 
@@ -78,6 +85,8 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             startDestination = Match,
         ) {
             composable<Match> { backStackEntry ->
+                val parentEntry = navController.getBackStackEntry(Game)
+                val mainVM = hiltViewModel<MainViewModel>(parentEntry)
                 MatchScreen(
                     modifier = Modifier,
                     onClick = { navController.navigate(InGame) },
@@ -85,6 +94,8 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             }
 
             composable<InGame> { backStackEntry ->
+                val parentEntry = navController.getBackStackEntry(Game)
+                val mainVM = hiltViewModel<MainViewModel>(parentEntry)
                 InGameScreen(
                     modifier = Modifier,
                     onClick = { navController.navigate(ResultsWinner) },
@@ -92,6 +103,8 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             }
 
             composable<ResultsWinner> { backStackEntry ->
+                val parentEntry = navController.getBackStackEntry(Game)
+                val mainVM = hiltViewModel<MainViewModel>(parentEntry)
                 ResultWinnerScreen(
                     modifier = Modifier,
                     onClick = {
