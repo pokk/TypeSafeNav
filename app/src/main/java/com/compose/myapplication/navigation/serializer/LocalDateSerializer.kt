@@ -1,4 +1,4 @@
-package com.compose.myapplication.serializer
+package com.compose.myapplication.navigation.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -21,7 +21,5 @@ object LocalDateSerializer : KSerializer<LocalDate> {
         encoder.encodeString(result)
     }
 
-    override fun deserialize(decoder: Decoder): LocalDate {
-        return LocalDate.parse(decoder.decodeString())
-    }
+    override fun deserialize(decoder: Decoder): LocalDate = LocalDate.parse(decoder.decodeString())
 }

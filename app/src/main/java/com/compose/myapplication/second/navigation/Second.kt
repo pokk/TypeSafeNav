@@ -1,7 +1,7 @@
 package com.compose.myapplication.second.navigation
 
 import android.os.Parcelable
-import com.compose.myapplication.serializer.ZonedDateTimeSerializer
+import com.compose.myapplication.navigation.serializer.ZonedDateTimeSerializer
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime

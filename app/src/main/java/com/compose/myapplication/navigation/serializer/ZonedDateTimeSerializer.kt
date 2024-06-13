@@ -1,4 +1,4 @@
-package com.compose.myapplication.serializer
+package com.compose.myapplication.navigation.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -22,7 +22,5 @@ object ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
         encoder.encodeString(value.format(formatter))
     }
 
-    override fun deserialize(decoder: Decoder): ZonedDateTime {
-        return ZonedDateTime.parse(decoder.decodeString(), formatter)
-    }
+    override fun deserialize(decoder: Decoder): ZonedDateTime = ZonedDateTime.parse(decoder.decodeString(), formatter)
 }

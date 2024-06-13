@@ -1,4 +1,4 @@
-package com.compose.myapplication.navtype
+package com.compose.myapplication.navigation.navtype
 
 // class EnumNavType<T : Enum<T>>(private val enumClass: Class<T>) : NavType<T>(isNullableAllowed = false) {
 //    override val name: String get() = enumClass.name
