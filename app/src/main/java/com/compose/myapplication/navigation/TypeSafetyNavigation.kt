@@ -14,8 +14,10 @@ import com.compose.myapplication.MainViewModel
 import com.compose.myapplication.detail.Game
 import com.compose.myapplication.detail.InGame
 import com.compose.myapplication.detail.InGameScreen
+import com.compose.myapplication.detail.InGameViewModel
 import com.compose.myapplication.detail.Match
 import com.compose.myapplication.detail.MatchScreen
+import com.compose.myapplication.detail.MatchViewModel
 import com.compose.myapplication.detail.ResultWinnerScreen
 import com.compose.myapplication.detail.ResultsWinner
 import com.compose.myapplication.enumType
@@ -24,6 +26,7 @@ import com.compose.myapplication.first.FirstViewModel
 import com.compose.myapplication.first.navigation.First
 import com.compose.myapplication.first.navigation.Main
 import com.compose.myapplication.second.SecondScreen
+import com.compose.myapplication.second.SecondViewModel
 import com.compose.myapplication.second.navigation.Book
 import com.compose.myapplication.second.navigation.OwnZonedDateTime
 import com.compose.myapplication.second.navigation.Second
@@ -87,6 +90,8 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             composable<Match> { backStackEntry ->
                 val parentEntry = navController.getBackStackEntry(Game)
                 val mainVM = hiltViewModel<MainViewModel>(parentEntry)
+                val vm = hiltViewModel<MatchViewModel>()
+                val secondViewModel = hiltViewModel<SecondViewModel>()
                 MatchScreen(
                     modifier = Modifier,
                     onClick = { navController.navigate(InGame) },
@@ -96,6 +101,7 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
             composable<InGame> { backStackEntry ->
                 val parentEntry = navController.getBackStackEntry(Game)
                 val mainVM = hiltViewModel<MainViewModel>(parentEntry)
+                val vm = hiltViewModel<InGameViewModel>()
                 InGameScreen(
                     modifier = Modifier,
                     onClick = { navController.navigate(ResultsWinner) },
