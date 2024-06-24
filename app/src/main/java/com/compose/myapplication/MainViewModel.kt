@@ -10,4 +10,10 @@ class MainViewModel
     @Inject
     constructor(
         private val savedStateHandle: SavedStateHandle,
-    ) : ViewModel()
+    ) : ViewModel() {
+        fun getUUID() {
+            println("=====uuid============================================")
+            println(savedStateHandle.hashCode())
+            println("=====uuid============================================")
+    }
+}
