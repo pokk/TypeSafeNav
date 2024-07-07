@@ -37,7 +37,10 @@ import kotlin.reflect.typeOf
 
 @SuppressLint("RestrictedApi")
 @Composable
-fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
+fun TypeSafetyNavigation(
+    modifier: Modifier = Modifier,
+    onRecreate: () -> Unit = {},
+) {
     val navController = rememberNavController()
     LaunchedEffect(Unit) {
         navController.currentBackStack.collect {
@@ -106,6 +109,10 @@ fun TypeSafetyNavigation(modifier: Modifier = Modifier) {
                 InGameScreen(
                     modifier = Modifier,
                     onClick = { navController.navigate(ResultsWinner) },
+                    onChangeClick = {
+                        vm.changeConfiguration()
+                        onRecreate()
+                    },
                 )
             }
 

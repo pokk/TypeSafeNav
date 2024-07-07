@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 fun InGameScreen(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    onChangeClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier,
@@ -21,6 +22,11 @@ fun InGameScreen(
             onClick = onClick,
         ) {
             Text(text = "Click MMMEEE")
+        }
+        Button(
+            onClick = onChangeClick,
+        ) {
+            Text(text = "Change the configuration")
         }
     }
 }

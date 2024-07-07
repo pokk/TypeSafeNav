@@ -1,5 +1,6 @@
 package com.compose.myapplication
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,9 +23,17 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     TypeSafetyNavigation(
                         modifier = Modifier.padding(innerPadding),
+                        onRecreate = { recreate() },
                     )
                 }
             }
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        println("=================================================")
+        println("Config changeeeeeeeeeeeeeeeeee")
+        println("=================================================")
     }
 }
