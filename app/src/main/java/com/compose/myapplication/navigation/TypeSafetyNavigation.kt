@@ -74,11 +74,10 @@ fun TypeSafetyNavigation(
         }
 
         composable<Second>(
-            typeMap =
-                mapOf(
-                    typeOf<Book>() to enumType<Book>(),
-                    typeOf<OwnZonedDateTime>() to serializableType<OwnZonedDateTime>(),
-                ),
+            typeMap = mapOf(
+                typeOf<Book>() to enumType<Book>(),
+                typeOf<OwnZonedDateTime>() to serializableType<OwnZonedDateTime>(),
+            ),
         ) { backStackEntry ->
             val args = backStackEntry.toRoute<Second>()
             SecondScreen(

@@ -22,3 +22,7 @@ fun FirstScreen(
         }
     }
 }
+
+private val names = List(30) {
+    "a$it + 1234"
+}
